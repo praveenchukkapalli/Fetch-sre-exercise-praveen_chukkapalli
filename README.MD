@@ -48,7 +48,7 @@ go run main.go sample.yaml
 ### 1. Perform Healt check for every 15 seconds diregard of HTTP request durations in each cycle (relatively complex).
 
 - **Original**: Monitoring loop ran synchronously and could delay based on endpoint speed.
-- **Fix**: Launched `monitorEndpoints()` in a goroutine every 15 seconds using `time.Sleep`. This ensured regular intervals regardless of execution time and allowed independent check cycles.
+- **Fix**: Launched `monitorEndpoints()` in a goroutine every 15 seconds using `time.Sleep`. This ensured regular intervals regardless of execution time and allowed concurrent check cycles, If needed.
 
 - This Caused Data racing and corruption when program is stressed with larger no.of endpoints due to shared  `stats` map was shared across all monitoring cycles,s.
     -  **To Fix this,** Defined `stats` inside `monitorEndpoints()` and passed it to other functions. This avoided shared state and enabled each 15s cycle to run without interference.
