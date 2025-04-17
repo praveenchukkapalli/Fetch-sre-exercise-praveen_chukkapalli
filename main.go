@@ -33,7 +33,7 @@ const threshold_timeout_duration = 500
 
 func checkHealth(endpoint Endpoint,stats map[string]*DomainStats) {
 	if endpoint.Method == "" {
-		endpoint.Method = "GET" // Default to GET if method is omitted
+		endpoint.Method = "GET" // Default to GET if method is not provided via YAML
 	}
 
 	var client = &http.Client{
@@ -74,7 +74,7 @@ func checkHealth(endpoint Endpoint,stats map[string]*DomainStats) {
 func extractDomain(url string) string {
 	urlSplit := strings.Split(url, "//")
 	domain := strings.Split(urlSplit[len(urlSplit)-1], "/")[0]
-	domain_without_port := strings.Split(domain, ":")[0] // Stripping port if present
+	domain_without_port := strings.Split(domain, ":")[0] // Stripping port in domain, if present
 	return domain_without_port
 }
 
