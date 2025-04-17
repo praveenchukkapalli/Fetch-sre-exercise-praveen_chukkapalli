@@ -27,7 +27,6 @@ type DomainStats struct {
 	Total   int
 }
 
-//var stats = make(map[string]*DomainStats)
 const threshold_response_time = 500
 const threshold_timeout_duration = 500
 //Set above thresholds accordingly in MilliSeconds(ms)
@@ -43,7 +42,6 @@ func checkHealth(endpoint Endpoint,stats map[string]*DomainStats) {
 
 	var req *http.Request
 	var err error
-
 
 	if endpoint.Body != "" && endpoint.Method != "GET" {
 		req, err = http.NewRequest(endpoint.Method, endpoint.URL, bytes.NewBufferString(endpoint.Body))
@@ -92,10 +90,7 @@ func monitorEndpoints(endpoints []Endpoint) {
 			checkHealth(endpoint,stats)
 		}
 		logResults(stats)
-
 }
-
-
 
 func logResults(stats map[string]*DomainStats) {
 	for domain, stat := range stats {
